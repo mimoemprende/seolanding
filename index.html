@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEO explicado: qué es, cómo funciona y cómo se aplica</title>
+<meta name="description" content="Guía académica e interactiva sobre SEO: rastreo, indexación, tipos, palabras clave, factores de posicionamiento, herramientas y un ejemplo práctico.">
+<style>
+:root{
+  --ink:#0f1b33; --ink2:#41506b; --paper:#f5f7fb; --card:#ffffff; --line:#d9e0ec;
+  --blue:#1f5eff; --blue-d:#1747c4; --blue-l:#e6edff;
+  --amber:#ffb400; --amber-l:#fff3cc;
+  --teal:#0b8f7f; --teal-l:#d9f4ef;
+  --red:#c63d3d; --red-l:#fbe4e4;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.65;font-size:17px}
+a{color:var(--blue-d)}
+img,svg{max-width:100%}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15;letter-spacing:-.01em}
+h2{font-size:clamp(1.9rem,4vw,2.7rem);margin-bottom:.6rem}
+h3{font-size:1.3rem;margin-bottom:.4rem}
+p{max-width:68ch}
+.lead{font-size:1.15rem;color:var(--ink2);margin-bottom:1.6rem}
+section{padding:72px 0;border-top:1px solid var(--line)}
+section:nth-of-type(even){background:#fff}
+.sec-tag{display:inline-block;font-size:.85rem;font-weight:700;color:var(--blue-d);background:var(--blue-l);padding:3px 12px;border-radius:99px;margin-bottom:12px}
+
+/* progreso y nav */
+#bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--amber);z-index:100}
+header.nav{position:sticky;top:0;z-index:90;background:rgba(15,27,51,.97);color:#fff}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.25rem;color:#fff;text-decoration:none}
+.brand b{color:var(--amber)}
+.menu{display:flex;gap:2px;list-style:none}
+.menu a{display:block;color:#c9d4ea;text-decoration:none;font-size:.88rem;padding:8px 10px;border-radius:6px}
+.menu a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.menu a.active{color:var(--ink);background:var(--amber)}
+#burger{display:none;background:none;border:1px solid #5a6a8a;color:#fff;padding:6px 12px;border-radius:6px}
+@media(max-width:940px){
+  #burger{display:block}
+  .menu{display:none;position:absolute;top:60px;left:0;right:0;background:var(--ink);flex-direction:column;padding:10px 22px 18px;border-top:1px solid #2d3d60}
+  .menu.open{display:flex}
+  .menu a{font-size:1rem;padding:11px 8px}
+}
+
+/* hero */
+.hero{background:var(--ink);color:#fff;padding:64px 0 72px;border:0}
+.hero .grid{display:grid;grid-template-columns:1.05fr 1fr;gap:42px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,6vw,4rem)}
+.hero p{color:#c9d4ea;font-size:1.15rem;margin:18px 0 26px}
+.btn{display:inline-block;background:var(--amber);color:var(--ink);font-weight:700;border:0;padding:12px 22px;border-radius:8px;text-decoration:none}
+.btn:hover{background:#ffc83d}
+.btn.ghost{background:transparent;color:#fff;border:2px solid #5a6a8a;margin-left:8px}
+.btn.ghost:hover{border-color:#fff}
+.btn.sm{padding:8px 16px;font-size:.95rem}
+.serp{background:#fff;color:var(--ink);border-radius:14px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.searchbox{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:99px;padding:10px 16px;font-size:1rem;min-height:46px}
+.searchbox .q{flex:1}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--ink);vertical-align:middle;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.results{position:relative;height:356px;margin-top:12px}
+.res{position:absolute;left:0;right:0;height:84px;padding:8px 10px;border-radius:10px;transition:top .9s cubic-bezier(.6,0,.2,1),background .4s;overflow:hidden}
+.res .u{font-size:.78rem;color:#4a5b78}
+.res .t{font-size:1.02rem;color:#1a0dab;font-weight:600;line-height:1.3}
+.res .d{font-size:.84rem;color:#4a5b78;line-height:1.35}
+.res.me.on{background:var(--amber-l);box-shadow:inset 0 0 0 2px var(--amber)}
+.res .pos{position:absolute;right:10px;top:8px;font-size:.75rem;font-weight:700;background:var(--ink);color:#fff;border-radius:99px;padding:1px 9px}
+.hero-note{font-size:.85rem;color:#9fb0d0;margin-top:10px}
+@media(max-width:860px){.hero .grid{grid-template-columns:1fr}.btn.ghost{margin:10px 0 0}}
+
+/* tarjetas */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+section:nth-of-type(even) .card{background:var(--paper)}
+.card .ico{font-size:1.7rem;margin-bottom:6px}
+.card p{font-size:.97rem;color:var(--ink2)}
+.callout{border-left:5px solid var(--amber);background:var(--amber-l);padding:14px 18px;border-radius:0 10px 10px 0;margin:22px 0;max-width:72ch}
+.callout.blue{border-color:var(--blue);background:var(--blue-l)}
+.callout.green{border-color:var(--teal);background:var(--teal-l)}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0}
+.stat{border-top:3px solid var(--blue);padding-top:8px}
+.stat b{font-family:var(--serif);font-size:1.5rem;display:block}
+.stat span{font-size:.92rem;color:var(--ink2)}
+
+/* flujo */
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin:22px 0 14px}
+.step{background:#fff;border:2px solid var(--line);border-radius:14px;padding:18px 14px;text-align:center;transition:.2s}
+.step:hover{border-color:var(--blue)}
+.step[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-l)}
+.step .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;margin-bottom:6px}
+.step b{display:block;font-family:var(--serif);font-size:1.25rem}
+.step small{color:var(--ink2)}
+.arrow{align-self:center;font-size:1.8rem;color:var(--blue)}
+.flow-detail{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;min-height:150px}
+.flow-detail ul{margin:8px 0 0 20px}
+@media(max-width:760px){.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);justify-self:center}}
+
+/* acordeón */
+details{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+section:nth-of-type(even) details{background:var(--paper)}
+summary{cursor:pointer;padding:16px 20px;font-weight:700;font-size:1.08rem;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.5rem;color:var(--blue);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details[open] summary{border-bottom:1px solid var(--line)}
+.dbody{padding:16px 20px 18px}
+.dbody ul{margin:6px 0 10px 20px}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:99px;margin-right:6px}
+.tag.g{background:var(--teal-l);color:#06594f}.tag.p{background:var(--amber-l);color:#7a5600}.tag.b{background:var(--blue-l);color:var(--blue-d)}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.tab{background:#fff;border:2px solid var(--line);border-radius:99px;padding:8px 16px;font-weight:600;color:var(--ink2)}
+.tab:hover{border-color:var(--blue)}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
+.panel[hidden]{display:none}
+.panel ul{margin:8px 0 0 20px}
+
+/* palabras clave */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{background:#fff;border:2px solid var(--line);border-radius:8px;padding:8px 14px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:var(--ink);color:#fff}
+.tablewrap{overflow-x:auto;border-radius:10px;margin:14px 0}
+.ex-list{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.ex-list li{background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:3px 12px;font-family:var(--mono);font-size:.88rem}
+.funnel{display:flex;flex-direction:column;align-items:center;gap:6px;margin:14px 0}
+.funnel div{padding:10px;text-align:center;color:#fff;border-radius:6px;font-weight:600;font-size:.95rem}
+
+/* ejemplo práctico */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+.ba{border-radius:12px;border:2px solid var(--line);background:#fff;padding:16px}
+.ba.bad{border-color:var(--red)}.ba.good{border-color:var(--teal)}
+.ba h3{font-family:var(--sans);font-size:1.05rem}
+.badge{font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:99px;color:#fff}
+.bad .badge{background:var(--red)}.good .badge{background:var(--teal)}
+pre{background:#0f1b33;color:#dce6ff;padding:14px;border-radius:10px;overflow-x:auto;font-family:var(--mono);font-size:.82rem;line-height:1.55;margin:10px 0;white-space:pre-wrap;word-break:break-word}
+pre .c{color:#7e92b8}
+.snip{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff;margin-top:10px}
+.snip .u{font-size:.8rem;color:#4a5b78}.snip .t{color:#1a0dab;font-size:1.1rem;font-weight:600;line-height:1.3}.snip .d{font-size:.9rem;color:#4a5b78}
+.editor{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:26px}
+.editor label{display:block;font-weight:700;margin:12px 0 4px}
+.editor input,.editor textarea{width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--paper)}
+.editor textarea{resize:vertical;min-height:84px}
+.meter{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s,background .2s}
+.count{font-size:.88rem;color:var(--ink2)}
+.checks{list-style:none;margin-top:14px}
+.checks li{padding:5px 0 5px 30px;position:relative;font-size:.97rem}
+.checks li::before{content:"✗";position:absolute;left:0;color:var(--red);font-weight:700}
+.checks li.ok::before{content:"✓";color:var(--teal)}
+@media(max-width:760px){.compare{grid-template-columns:1fr}}
+
+/* ventajas */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0}
+.two ul{margin:8px 0 0 20px}
+.two .card h3{display:flex;gap:8px;align-items:center}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:18px 0;text-align:center}
+.timeline div{padding:14px 8px;background:var(--blue-l);border-right:2px solid #fff;font-size:.9rem}
+.timeline div:nth-child(2){background:#c9d9ff}.timeline div:nth-child(3){background:#9db9ff}.timeline div:nth-child(4){background:var(--blue);color:#fff}
+.timeline b{display:block;font-family:var(--serif);font-size:1.05rem}
+@media(max-width:620px){.timeline{grid-template-columns:1fr 1fr}}
+
+/* quiz */
+.quiz{background:var(--ink);color:#fff;border-radius:16px;padding:28px;max-width:760px}
+.quiz h3{font-family:var(--sans);font-size:1.2rem;margin:6px 0 16px}
+.opt{display:block;width:100%;text-align:left;background:rgba(255,255,255,.08);color:#fff;border:2px solid #34466c;border-radius:10px;padding:12px 16px;margin-bottom:10px}
+.opt:hover:not(:disabled){border-color:var(--amber)}
+.opt.right{background:var(--teal);border-color:var(--teal)}
+.opt.wrong{background:var(--red);border-color:var(--red)}
+.opt:disabled{cursor:default}
+.fb{min-height:48px;margin:6px 0 12px;color:#dce6ff;font-size:.97rem}
+.qmeta{display:flex;justify-content:space-between;font-size:.9rem;color:#9fb0d0}
+.qprog{height:6px;background:#34466c;border-radius:99px;margin:8px 0 14px}
+.qprog i{display:block;height:100%;background:var(--amber);border-radius:99px;width:0;transition:width .3s}
+
+/* biblio */
+.refs{list-style:none}
+.refs li{padding:12px 0;border-bottom:1px solid var(--line);font-size:.97rem;max-width:80ch}
+.refs a{word-break:break-all}
+footer{background:var(--ink);color:#9fb0d0;text-align:center;padding:28px 18px;font-size:.92rem}
+#top{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;border:0;background:var(--amber);color:var(--ink);font-size:1.3rem;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.3);display:none;z-index:80}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#inicio">SEO<b>.</b>explicado</a>
+    <button id="burger" aria-expanded="false" aria-controls="menu">Menú</button>
+    <ul class="menu" id="menu">
+      <li><a href="#intro">Introducción</a></li>
+      <li><a href="#funcionamiento">Funcionamiento</a></li>
+      <li><a href="#tipos">Tipos</a></li>
+      <li><a href="#palabras">Palabras clave</a></li>
+      <li><a href="#factores">Factores</a></li>
+      <li><a href="#herramientas">Herramientas</a></li>
+      <li><a href="#practico">Ejemplo</a></li>
+      <li><a href="#ventajas">Ventajas</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+      <li><a href="#conclusiones">Conclusiones</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="wrap grid">
+    <div>
+      <h1>Cómo hacer que una página sea encontrada en Google</h1>
+      <p>Una guía interactiva sobre SEO: qué es, cómo funcionan los buscadores y qué se hace para aparecer mejor en los resultados. Proyecto académico.</p>
+      <a class="btn" href="#intro">Empezar</a>
+      <a class="btn ghost" href="#quiz">Ir al quiz</a>
+    </div>
+    <div>
+      <div class="serp" aria-label="Simulación de una búsqueda">
+        <div class="searchbox"><span aria-hidden="true">🔍</span><span class="q" id="typed"></span><span class="caret"></span></div>
+        <div class="results" id="results"></div>
+      </div>
+      <p class="hero-note">Simulación: la página optimizada sube de posición. <button class="btn sm" id="replay" style="margin-left:6px">Repetir</button></p>
+    </div>
+  </div>
+</section>
+
+<!-- 1 INTRO -->
+<section id="intro">
+  <div class="wrap">
+    <span class="sec-tag">1. Introducción</span>
+    <h2>¿Qué es el SEO?</h2>
+    <p class="lead"><b>SEO</b> son las siglas de <i>Search Engine Optimization</i>: optimización para motores de búsqueda. Es el conjunto de prácticas que ayudan a que un buscador entienda una página y la muestre a las personas que buscan ese tema.</p>
+    <div class="cards">
+      <article class="card"><div class="ico">🎯</div><h3>Objetivo</h3><p>Conseguir visitas <b>orgánicas</b>: las que llegan por los resultados naturales, sin pagar anuncios.</p></article>
+      <article class="card"><div class="ico">🧭</div><h3>Idea central</h3><p>Ayudar al buscador a encontrar la mejor respuesta y ayudar al usuario a llegar a ella de forma fácil.</p></article>
+      <article class="card"><div class="ico">⏳</div><h3>Es un proceso</h3><p>No es un truco único: es trabajo continuo de contenido, estructura técnica y reputación.</p></article>
+    </div>
+    <h3 style="margin-top:34px">¿Por qué es importante?</h3>
+    <ul style="margin:8px 0 0 20px;max-width:68ch">
+      <li>Los buscadores son la puerta de entrada a mucha información en internet.</li>
+      <li>Los usuarios suelen revisar sobre todo los primeros resultados.</li>
+      <li>El tráfico orgánico no se paga por cada clic, aunque sí requiere tiempo y esfuerzo.</li>
+      <li>Mejorar el SEO también mejora la experiencia de quien visita el sitio.</li>
+    </ul>
+    <div class="callout"><b>Para recordar al exponer:</b> SEO = hacer una página <i>fácil de encontrar</i>, <i>fácil de entender</i> y <i>útil</i>.</div>
+  </div>
+</section>
+
+<!-- 2 FUNCIONAMIENTO -->
+<section id="funcionamiento">
+  <div class="wrap">
+    <span class="sec-tag">2. Funcionamiento</span>
+    <h2>Cómo trabaja un buscador</h2>
+    <p class="lead">Un buscador como Google sigue tres etapas principales. Toca cada paso para ver el detalle.</p>
+    <div class="flow" id="flow">
+      <button class="step" data-i="0" aria-pressed="true"><span class="n">1</span><b>Rastreo</b><small>Descubrir páginas</small></button>
+      <div class="arrow" aria-hidden="true">➜</div>
+      <button class="step" data-i="1" aria-pressed="false"><span class="n">2</span><b>Indexación</b><small>Entender y guardar</small></button>
+      <div class="arrow" aria-hidden="true">➜</div>
+      <button class="step" data-i="2" aria-pressed="false"><span class="n">3</span><b>Clasificación</b><small>Ordenar resultados</small></button>
+    </div>
+    <div class="flow-detail" id="flowDetail" aria-live="polite"></div>
+    <div class="callout blue"><b>Importante:</b> que una página se rastree no garantiza que se indexe, y que se indexe no garantiza que salga en los primeros lugares. Según Google Search Central, no todas las páginas rastreadas terminan en el índice.</div>
+    <h3 style="margin-top:28px">Recorrido de una búsqueda</h3>
+    <div class="funnel" aria-label="Embudo de una búsqueda">
+      <div style="background:#1f5eff;width:100%">Miles de millones de páginas en la web</div>
+      <div style="background:#1747c4;width:82%">Páginas rastreadas por el buscador</div>
+      <div style="background:#0f2f8f;width:64%">Páginas indexadas (guardadas)</div>
+      <div style="background:#0b8f7f;width:46%">Páginas relevantes para la búsqueda</div>
+      <div style="background:#06594f;width:30%">Resultados mostrados</div>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink2)">Esquema ilustrativo: las proporciones no son cifras reales.</p>
+  </div>
+</section>
+
+<!-- 3 TIPOS -->
+<section id="tipos">
+  <div class="wrap">
+    <span class="sec-tag">3. Tipos de SEO</span>
+    <h2>Cuatro frentes de trabajo</h2>
+    <p class="lead">Abre cada tarjeta para ver qué incluye y un ejemplo.</p>
+    <details open>
+      <summary><span>📝 SEO On-Page (dentro de la página)</span></summary>
+      <div class="dbody">
+        <p>Todo lo que se controla directamente en el contenido de cada página.</p>
+        <ul><li>Título (<code>&lt;title&gt;</code>) y metadescripción claros.</li><li>Encabezados H1, H2, H3 ordenados.</li><li>Contenido útil y bien redactado.</li><li>Texto alternativo en imágenes y enlaces internos.</li></ul>
+        <p><b>Ejemplo:</b> un título como «Cómo cultivar tomates en macetas: guía paso a paso».</p>
+      </div>
+    </details>
+    <details>
+      <summary><span>🔗 SEO Off-Page (fuera de la página)</span></summary>
+      <div class="dbody">
+        <p>Señales que vienen de otros sitios y que reflejan reputación.</p>
+        <ul><li>Enlaces de otros sitios hacia el nuestro (<i>backlinks</i>).</li><li>Menciones en medios, blogs o publicaciones.</li><li>Contenido que otros comparten o citan por su calidad.</li></ul>
+        <p><b>Ejemplo:</b> una universidad enlaza una guía porque la considera una buena referencia.</p>
+        <p><b>Ojo:</b> los enlaces comprados o artificiales van contra las políticas de Google.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span>⚙️ SEO Técnico</span></summary>
+      <div class="dbody">
+        <p>Asegura que el buscador pueda rastrear, entender y mostrar bien el sitio.</p>
+        <ul><li>Velocidad de carga y diseño adaptable a móviles.</li><li>Uso de HTTPS (conexión segura).</li><li>Archivo <code>robots.txt</code> y mapa del sitio (<code>sitemap.xml</code>).</li><li>URLs limpias, sin enlaces rotos ni contenido duplicado.</li><li>Datos estructurados (marcado schema).</li></ul>
+        <p><b>Ejemplo:</b> enviar un sitemap en Search Console para que Google conozca las páginas nuevas.</p>
+      </div>
+    </details>
+    <details>
+      <summary><span>📍 SEO Local</span></summary>
+      <div class="dbody">
+        <p>Busca aparecer en búsquedas con intención geográfica, como «cafetería cerca de mí».</p>
+        <ul><li>Ficha en Google Business Profile completa y actualizada.</li><li>Datos consistentes: nombre, dirección y teléfono.</li><li>Reseñas de clientes y respuestas a ellas.</li><li>Contenido que mencione la ciudad o zona.</li></ul>
+        <p><b>Ejemplo:</b> una librería de barrio que aparece en el mapa al buscar «librería en mi ciudad».</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- 4 PALABRAS CLAVE -->
+<section id="palabras">
+  <div class="wrap">
+    <span class="sec-tag">4. Palabras clave</span>
+    <h2>Lo que la gente escribe al buscar</h2>
+    <p class="lead">Una <b>palabra clave</b> es el término o frase que una persona escribe en el buscador. Investigarlas permite escribir sobre lo que realmente se busca y con las palabras que la gente usa.</p>
+    <h3>Cómo se investigan</h3>
+    <div class="cards">
+      <article class="card"><div class="ico">1️⃣</div><h3>Pensar en el tema</h3><p>Lista de ideas y preguntas que haría tu público.</p></article>
+      <article class="card"><div class="ico">2️⃣</div><h3>Explorar</h3><p>Sugerencias de Google, «Otras preguntas de los usuarios» y herramientas como Semrush o Ahrefs.</p></article>
+      <article class="card"><div class="ico">3️⃣</div><h3>Analizar</h3><p>Volumen de búsquedas, dificultad y competencia.</p></article>
+      <article class="card"><div class="ico">4️⃣</div><h3>Elegir y usar</h3><p>Asignar una palabra principal a cada página y usarla de forma natural.</p></article>
+    </div>
+    <h3 style="margin-top:32px">Intención de búsqueda: toca una para ver ejemplos</h3>
+    <div class="chips" id="intentChips">
+      <button class="chip" aria-pressed="true" data-k="info">Informativa</button>
+      <button class="chip" aria-pressed="false" data-k="nav">Navegacional</button>
+      <button class="chip" aria-pressed="false" data-k="com">Comparativa</button>
+      <button class="chip" aria-pressed="false" data-k="trans">Transaccional</button>
+    </div>
+    <div class="panel" id="intentPanel" aria-live="polite"></div>
+    <h3 style="margin-top:32px">Tipos de palabras clave según su longitud</h3>
+    <div class="tablewrap"><table>
+      <tr><th>Tipo</th><th>Características</th><th>Ejemplo</th></tr>
+      <tr><td><b>Corta (head)</b></td><td>1–2 palabras. Mucho volumen y mucha competencia.</td><td>«tomates»</td></tr>
+      <tr><td><b>Media</b></td><td>2–3 palabras. Equilibrio entre volumen y competencia.</td><td>«cultivar tomates»</td></tr>
+      <tr><td><b>Larga (long tail)</b></td><td>4 o más palabras. Menos búsquedas, más específicas y con menos competencia.</td><td>«cómo cultivar tomates en macetas pequeñas»</td></tr>
+    </table></div>
+    <div class="callout green"><b>Consejo:</b> escribir para personas, no para robots. Repetir una palabra clave sin parar (<i>keyword stuffing</i>) está desaconsejado por Google.</div>
+  </div>
+</section>
+
+<!-- 5 FACTORES -->
+<section id="factores">
+  <div class="wrap">
+    <span class="sec-tag">5. Factores de posicionamiento</span>
+    <h2>Qué influye en la posición</h2>
+    <p class="lead">Google usa muchas señales y no publica una lista exacta con pesos. Estos son los grupos principales que menciona su documentación y la práctica del sector.</p>
+    <div class="tabs" role="tablist" id="factorTabs">
+      <button class="tab" role="tab" aria-selected="true" data-p="0">Contenido</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="1">Intención</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="2">Enlaces</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="3">Rendimiento</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="4">Experiencia</button>
+    </div>
+    <div class="panel" role="tabpanel" data-panel="0"><h3>Contenido de calidad</h3><p>Google busca contenido <b>útil, fiable y pensado para las personas</b>.</p><ul><li>Original y con información verificable.</li><li>Completo: responde la duda sin rodeos.</li><li>Con autor o fuente identificable (idea de E-E-A-T: experiencia, pericia, autoridad y confianza).</li><li>Actualizado cuando el tema lo requiere.</li></ul></div>
+    <div class="panel" role="tabpanel" data-panel="1" hidden><h3>Intención de búsqueda</h3><p>Es el <b>motivo</b> detrás de la búsqueda. Una página debe coincidir con lo que la persona quiere lograr.</p><ul><li>Quien busca «qué es SEO» quiere una explicación, no una tienda.</li><li>Quien busca «comprar zapatos» quiere productos.</li><li>Mirar los resultados actuales ayuda a ver qué formato espera el usuario.</li></ul></div>
+    <div class="panel" role="tabpanel" data-panel="2" hidden><h3>Enlaces</h3><p>Los enlaces de sitios confiables funcionan como «recomendaciones». Es una de las ideas con las que nació Google (PageRank).</p><ul><li>Importa más la <b>calidad</b> que la cantidad.</li><li>Los enlaces internos ayudan a descubrir y relacionar páginas.</li><li>Comprar o intercambiar enlaces de forma artificial puede ser penalizado.</li></ul></div>
+    <div class="panel" role="tabpanel" data-panel="3" hidden><h3>Rendimiento</h3><p>Una página rápida es mejor para el usuario. Google mide la experiencia con las <b>Core Web Vitals</b>:</p><ul><li><b>LCP</b>: qué tan rápido aparece el contenido principal.</li><li><b>INP</b>: qué tan rápido responde la página al interactuar.</li><li><b>CLS</b>: cuánto se mueve el diseño mientras carga.</li></ul></div>
+    <div class="panel" role="tabpanel" data-panel="4" hidden><h3>Experiencia de usuario</h3><p>Una buena experiencia hace que las personas quieran quedarse.</p><ul><li>Diseño adaptable a móviles.</li><li>Navegación clara y sin anuncios intrusivos.</li><li>Sitio seguro con HTTPS.</li><li>Texto legible y bien organizado.</li></ul></div>
+  </div>
+</section>
+
+<!-- 6 HERRAMIENTAS -->
+<section id="herramientas">
+  <div class="wrap">
+    <span class="sec-tag">6. Herramientas</span>
+    <h2>Con qué se mide y se trabaja</h2>
+    <p class="lead">Estas cinco son de las más usadas. Los precios y planes pueden cambiar, así que conviene consultarlos en cada sitio oficial.</p>
+    <div class="cards">
+      <article class="card"><span class="tag g">Gratuita</span><h3>Google Search Console</h3><p>Muestra con qué búsquedas aparece tu sitio, qué páginas están indexadas y si hay errores.</p><p><a href="https://search.google.com/search-console" target="_blank" rel="noopener">Abrir sitio oficial</a></p></article>
+      <article class="card"><span class="tag g">Gratuita</span><h3>Google Analytics</h3><p>Mide el comportamiento de los visitantes: de dónde llegan, qué páginas ven y cuánto tiempo permanecen.</p><p><a href="https://analytics.google.com/" target="_blank" rel="noopener">Abrir sitio oficial</a></p></article>
+      <article class="card"><span class="tag p">Con plan de pago</span><h3>Semrush</h3><p>Suite de SEO: investigación de palabras clave, análisis de competidores y auditorías del sitio.</p><p><a href="https://www.semrush.com/" target="_blank" rel="noopener">Abrir sitio oficial</a></p></article>
+      <article class="card"><span class="tag p">Con plan de pago</span><h3>Ahrefs</h3><p>Muy conocida por el análisis de enlaces (<i>backlinks</i>), además de palabras clave y auditorías.</p><p><a href="https://ahrefs.com/" target="_blank" rel="noopener">Abrir sitio oficial</a></p></article>
+      <article class="card"><span class="tag g">Gratuita</span><h3>PageSpeed Insights</h3><p>Analiza la velocidad de una página en móvil y escritorio y da recomendaciones de mejora.</p><p><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Abrir sitio oficial</a></p></article>
+    </div>
+    <div class="callout"><b>Resumen:</b> Search Console dice <i>cómo te ve Google</i>; Analytics dice <i>qué hacen los visitantes</i>; Semrush y Ahrefs sirven para <i>investigar y comparar</i>; PageSpeed mide <i>la velocidad</i>.</div>
+  </div>
+</section>
+
+<!-- 7 EJEMPLO -->
+<section id="practico">
+  <div class="wrap">
+    <span class="sec-tag">7. Ejemplo práctico</span>
+    <h2>Optimizar una página ficticia</h2>
+    <p class="lead">Página inventada: una guía sobre cultivar tomates en macetas, en el sitio ficticio <code>huertaenmaceta.example</code>. Palabra clave objetivo: <b>«cultivar tomates en macetas»</b>.</p>
+    <div class="compare">
+      <div class="ba bad">
+        <span class="badge">ANTES</span>
+        <pre><span class="c">&lt;!-- sin optimizar --&gt;</span>
+&lt;title&gt;Inicio&lt;/title&gt;
+<span class="c">&lt;!-- sin metadescripción --&gt;</span>
+&lt;h1&gt;Bienvenidos&lt;/h1&gt;
+&lt;h2&gt;Cosas&lt;/h2&gt;
+&lt;img src="img1.jpg"&gt;</pre>
+        <div class="snip"><div class="u">huertaenmaceta.example</div><div class="t">Inicio</div><div class="d">Google elegirá un fragmento cualquiera del texto de la página…</div></div>
+        <ul style="margin:10px 0 0 20px;font-size:.93rem"><li>Título genérico que no dice el tema.</li><li>Sin descripción propia.</li><li>Encabezados sin información.</li><li>Imagen sin texto alternativo.</li></ul>
+      </div>
+      <div class="ba good">
+        <span class="badge">DESPUÉS</span>
+        <pre>&lt;title&gt;Cultivar tomates en macetas: guía paso a paso&lt;/title&gt;
+&lt;meta name="description" content="Aprende a cultivar tomates en macetas: elige el recipiente, el sustrato y el riego para tener una buena cosecha en poco espacio."&gt;
+&lt;h1&gt;Cómo cultivar tomates en macetas&lt;/h1&gt;
+&lt;h2&gt;Elegir la maceta y el sustrato&lt;/h2&gt;
+&lt;h2&gt;Riego y luz&lt;/h2&gt;
+&lt;img src="tomates.jpg" alt="Planta de tomate en una maceta"&gt;</pre>
+        <div class="snip"><div class="u">huertaenmaceta.example › guias › tomates</div><div class="t">Cultivar tomates en macetas: guía paso a paso</div><div class="d">Aprende a cultivar tomates en macetas: elige el recipiente, el sustrato y el riego para tener una buena cosecha en poco espacio.</div></div>
+        <ul style="margin:10px 0 0 20px;font-size:.93rem"><li>Título con la palabra clave al inicio.</li><li>Metadescripción que invita a hacer clic.</li><li>Un solo H1 y H2 con subtemas claros.</li><li>Texto alternativo descriptivo.</li></ul>
+      </div>
+    </div>
+
+    <div class="editor">
+      <h3>Pruébalo tú: editor con vista previa</h3>
+      <p style="font-size:.95rem;color:var(--ink2)">Cambia el título y la metadescripción de la página ficticia y mira la vista previa y la lista de comprobación.</p>
+      <label for="inTitle">Título de la página</label>
+      <input id="inTitle" type="text" value="Inicio">
+      <div class="meter"><i id="mTitle"></i></div><div class="count" id="cTitle"></div>
+      <label for="inDesc">Metadescripción</label>
+      <textarea id="inDesc"></textarea>
+      <div class="meter"><i id="mDesc"></i></div><div class="count" id="cDesc"></div>
+      <label for="inH1">Encabezado H1</label>
+      <input id="inH1" type="text" value="Bienvenidos">
+      <div class="snip" id="livePrev"><div class="u">huertaenmaceta.example › guias › tomates</div><div class="t" id="pT"></div><div class="d" id="pD"></div></div>
+      <ul class="checks" id="checks"></ul>
+      <div style="margin-top:12px"><button class="btn sm" id="fillGood">Cargar versión optimizada</button> <button class="btn sm ghost" id="fillBad" style="color:var(--ink);border-color:var(--line)">Volver al «antes»</button></div>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink2);margin-top:14px">Nota: Google puede reescribir el título y la descripción que muestra. Los rangos de caracteres son orientativos, porque el espacio real se mide en píxeles.</p>
+  </div>
+</section>
+
+<!-- 8 VENTAJAS -->
+<section id="ventajas">
+  <div class="wrap">
+    <span class="sec-tag">8. Ventajas y limitaciones</span>
+    <h2>Lo bueno y lo difícil</h2>
+    <div class="two">
+      <article class="card"><h3>✅ Ventajas</h3><ul><li>Tráfico orgánico sin pagar por cada clic.</li><li>Atrae a personas que ya buscan ese tema.</li><li>Los resultados pueden mantenerse en el tiempo.</li><li>Genera confianza y credibilidad.</li><li>Mejora la experiencia de uso del sitio.</li></ul></article>
+      <article class="card"><h3>⚠️ Limitaciones</h3><ul><li>Los resultados no son inmediatos.</li><li>Hay mucha competencia por las mismas búsquedas.</li><li>Los algoritmos cambian y no hay garantías de posición.</li><li>Requiere constancia y contenido nuevo.</li><li>Ninguna empresa puede asegurar el primer lugar.</li></ul></article>
+    </div>
+    <h3 style="margin-top:26px">¿Cuánto tarda en dar resultados?</h3>
+    <p>No hay un plazo fijo. Google indica que los cambios pueden tardar desde días hasta varios meses en verse reflejados. La siguiente escala es orientativa y depende del sitio y la competencia.</p>
+    <div class="timeline">
+      <div><b>Semanas 1–4</b>Rastreo e indexación inicial</div>
+      <div><b>Meses 2–3</b>Primeras mejoras en posiciones</div>
+      <div><b>Meses 4–6</b>Crecimiento más estable</div>
+      <div><b>Más de 6 meses</b>Resultados sostenidos</div>
+    </div>
+    <div class="callout"><b>Prácticas a evitar (Black Hat):</b> relleno de palabras clave, texto oculto, comprar enlaces y copiar contenido. Pueden provocar sanciones.</div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="wrap">
+    <span class="sec-tag">Interactivo</span>
+    <h2>Quiz: ¿qué aprendiste?</h2>
+    <p class="lead">Seis preguntas rápidas. Elige una opción y mira la explicación.</p>
+    <div class="quiz" id="quizBox"></div>
+  </div>
+</section>
+
+<!-- 9 CONCLUSIONES -->
+<section id="conclusiones">
+  <div class="wrap">
+    <span class="sec-tag">9. Conclusiones y bibliografía</span>
+    <h2>Conclusiones</h2>
+    <ul style="margin:8px 0 0 20px;max-width:70ch">
+      <li>El SEO ayuda a que el contenido sea encontrado por las personas adecuadas.</li>
+      <li>Funciona en tres etapas: rastreo, indexación y clasificación.</li>
+      <li>Combina contenido útil, aspectos técnicos y reputación (On-Page, Técnico, Off-Page y Local).</li>
+      <li>Investigar palabras clave e intención de búsqueda orienta qué escribir.</li>
+      <li>Es un trabajo a mediano plazo, sin garantías, que se mide y se ajusta con herramientas.</li>
+      <li>La mejor estrategia es crear contenido pensado para las personas y fácil de rastrear.</li>
+    </ul>
+    <h2 style="margin-top:44px;font-size:1.8rem">Bibliografía</h2>
+    <p style="font-size:.93rem;color:var(--ink2);margin-bottom:6px">Fuentes oficiales primero. Se recomienda abrir cada enlace antes de la exposición para confirmar que sigue disponible.</p>
+    <ol class="refs">
+      <li>Google Search Central. <i>Guía de optimización para motores de búsqueda (SEO) para principiantes.</i><br><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" target="_blank" rel="noopener">https://developers.google.com/search/docs/fundamentals/seo-starter-guide</a></li>
+      <li>Google Search Central. <i>Cómo funciona la Búsqueda de Google (rastreo, indexación y publicación).</i><br><a href="https://developers.google.com/search/docs/fundamentals/how-search-works" target="_blank" rel="noopener">https://developers.google.com/search/docs/fundamentals/how-search-works</a></li>
+      <li>Google Search Central. <i>Cómo crear contenido útil, fiable y centrado en las personas.</i><br><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener">https://developers.google.com/search/docs/fundamentals/creating-helpful-content</a></li>
+      <li>Google Search Central. <i>Esenciales de la Búsqueda de Google.</i><br><a href="https://developers.google.com/search/docs/essentials" target="_blank" rel="noopener">https://developers.google.com/search/docs/essentials</a></li>
+      <li>Google Search Central. <i>Influir en los enlaces de título en los resultados.</i><br><a href="https://developers.google.com/search/docs/appearance/title-link" target="_blank" rel="noopener">https://developers.google.com/search/docs/appearance/title-link</a></li>
+      <li>Google Search Central. <i>Fragmentos y metadescripciones.</i><br><a href="https://developers.google.com/search/docs/appearance/snippet" target="_blank" rel="noopener">https://developers.google.com/search/docs/appearance/snippet</a></li>
+      <li>web.dev (Google). <i>Core Web Vitals.</i><br><a href="https://web.dev/articles/vitals" target="_blank" rel="noopener">https://web.dev/articles/vitals</a></li>
+      <li>Google. <i>Ayuda de Search Console.</i><br><a href="https://support.google.com/webmasters" target="_blank" rel="noopener">https://support.google.com/webmasters</a></li>
+      <li>Google. <i>PageSpeed Insights.</i><br><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">https://pagespeed.web.dev/</a></li>
+      <li>Google. <i>Ayuda de Google Business Profile: mejorar el posicionamiento local.</i><br><a href="https://support.google.com/business/answer/7091" target="_blank" rel="noopener">https://support.google.com/business/answer/7091</a></li>
+      <li>Moz. <i>The Beginner's Guide to SEO.</i><br><a href="https://moz.com/beginners-guide-to-seo" target="_blank" rel="noopener">https://moz.com/beginners-guide-to-seo</a></li>
+      <li>Semrush y Ahrefs (sitios oficiales de las herramientas).<br><a href="https://www.semrush.com/" target="_blank" rel="noopener">https://www.semrush.com/</a> · <a href="https://ahrefs.com/" target="_blank" rel="noopener">https://ahrefs.com/</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer>Proyecto académico sobre SEO · Contenido educativo con fines de exposición · Página ficticia usada solo como ejemplo</footer>
+<button id="top" aria-label="Volver arriba">↑</button>
+
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  /* Menú móvil */
+  var burger=$('#burger'),menu=$('#menu');
+  burger.addEventListener('click',function(){
+    var o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o);
+  });
+  $$('#menu a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false')})});
+
+  /* Barra de progreso, scroll-spy, botón arriba */
+  var secs=$$('section[id]').filter(function(s){return s.id!=='inicio'});
+  var links=$$('#menu a');
+  var bar=$('#bar'),topBtn=$('#top');
+  function onScroll(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+    topBtn.style.display=h.scrollTop>600?'block':'none';
+    var cur='';
+    secs.forEach(function(s){if(s.getBoundingClientRect().top<140)cur=s.id});
+    links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur)});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  topBtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+
+  /* Hero: simulación de búsqueda */
+  var typed=$('#typed'),resBox=$('#results'),query='cómo cultivar tomates en macetas';
+  var data=[
+    {id:'a',u:'tiendaejemplo.example',t:'Tomates: precios y ofertas',d:'Compra semillas y macetas con envío gratis en todos los pedidos.'},
+    {id:'b',u:'foro.example',t:'¿Alguien sabe por qué se mueren mis plantas?',d:'Hilo de un foro con respuestas mezcladas y sin una guía clara…'},
+    {id:'c',u:'blogviejo.example',t:'Huerta casera (2014)',d:'Entrada antigua con consejos generales sobre jardinería, sin pasos detallados.'},
+    {id:'me',u:'huertaenmaceta.example › guias › tomates',t:'Cultivar tomates en macetas: guía paso a paso',d:'Elige el recipiente, el sustrato y el riego para una buena cosecha en poco espacio.',me:true}
+  ];
+  var els={};
+  data.forEach(function(r){
+    var d=document.createElement('div');d.className='res'+(r.me?' me':'');
+    d.innerHTML='<div class="u"></div><div class="t"></div><div class="d"></div><span class="pos"></span>';
+    d.children[0].textContent=r.u;d.children[1].textContent=r.t;d.children[2].textContent=r.d;
+    resBox.appendChild(d);els[r.id]=d;
+  });
+  function place(order){
+    order.forEach(function(id,i){els[id].style.top=(i*(84+4))+'px';els[id].querySelector('.pos').textContent='#'+(i+1)});
+  }
+  var timers=[];
+  function clearT(){timers.forEach(clearTimeout);timers=[]}
+  function runHero(){
+    clearT();typed.textContent='';els.me.classList.remove('on');
+    place(['a','b','c','me']);
+    var i=0;
+    (function type(){
+      if(i<=query.length){typed.textContent=query.slice(0,i);i++;timers.push(setTimeout(type,55))}
+      else{timers.push(setTimeout(function(){place(['me','a','b','c']);els.me.classList.add('on')},800))}
+    })();
+  }
+  $('#replay').addEventListener('click',runHero);
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){typed.textContent=query;place(['me','a','b','c']);els.me.classList.add('on')}
+  else runHero();
+
+  /* Flujo rastreo / indexación / clasificación */
+  var flow=[
+    {t:'1. Rastreo (crawling)',p:'Programas automáticos llamados <b>rastreadores</b> (Googlebot en el caso de Google) visitan páginas y siguen enlaces para descubrir contenido nuevo o actualizado.',l:['Parten de páginas ya conocidas y de los mapas del sitio (sitemaps).','Siguen los enlaces de una página a otra.','El archivo <code>robots.txt</code> indica qué partes del sitio no deben rastrearse.','Un sitio lento o con errores puede rastrearse menos.']},
+    {t:'2. Indexación (indexing)',p:'El buscador analiza el contenido de cada página (texto, imágenes, títulos, etiquetas) para entender de qué trata y guardarlo en una enorme base de datos llamada <b>índice</b>.',l:['Se interpreta el tema, el idioma y la estructura de la página.','Se detecta contenido duplicado y se elige una versión principal (canónica).','Una etiqueta <code>noindex</code> le pide al buscador no guardar la página.','Si no está en el índice, no puede aparecer en los resultados.']},
+    {t:'3. Clasificación y publicación (ranking)',p:'Cuando alguien busca, el buscador consulta su índice y ordena las páginas según su <b>relevancia y calidad</b> para esa búsqueda concreta.',l:['Interpreta la intención de la búsqueda.','Considera cientos de señales: contenido, enlaces, rendimiento, ubicación, idioma y dispositivo.','Los resultados pueden variar según la persona y el lugar.','Muestra títulos, descripciones y, a veces, formatos especiales (mapas, imágenes, respuestas destacadas).']}
+  ];
+  var fd=$('#flowDetail');
+  function showFlow(i){
+    var f=flow[i];
+    fd.innerHTML='<h3>'+f.t+'</h3><p>'+f.p+'</p><ul>'+f.l.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>';
+    $$('#flow .step').forEach(function(b,k){b.setAttribute('aria-pressed',k===i)});
+  }
+  $$('#flow .step').forEach(function(b){b.addEventListener('click',function(){showFlow(+b.dataset.i)})});
+  showFlow(0);
+
+  /* Intención de búsqueda */
+  var intents={
+    info:{t:'Informativa',p:'La persona quiere <b>aprender</b> algo.',e:['qué es el SEO','cómo funciona Google','por qué se secan las hojas de una planta'],c:'Guías, artículos, tutoriales, preguntas frecuentes.'},
+    nav:{t:'Navegacional',p:'La persona quiere <b>llegar a un sitio</b> concreto.',e:['search console','facebook iniciar sesión','sitio oficial de una universidad'],c:'Páginas de inicio y accesos directos al sitio.'},
+    com:{t:'Comparativa (investigación comercial)',p:'La persona <b>compara opciones</b> antes de decidir.',e:['mejores herramientas SEO','semrush vs ahrefs','mejor portátil para estudiar'],c:'Comparativas, reseñas, listas y análisis.'},
+    trans:{t:'Transaccional',p:'La persona quiere <b>realizar una acción</b>, como comprar o registrarse.',e:['comprar zapatillas deportivas','descargar plantilla de CV','reservar hotel en Cartagena'],c:'Fichas de producto, formularios, páginas de compra o descarga.'}
+  };
+  var ip=$('#intentPanel');
+  function showIntent(k){
+    var x=intents[k];
+    ip.innerHTML='<h3>'+x.t+'</h3><p>'+x.p+'</p><p><b>Ejemplos de búsqueda:</b></p><ul class="ex-list">'+x.e.map(function(e){return '<li>'+e+'</li>'}).join('')+'</ul><p style="margin-top:10px"><b>Contenido ideal:</b> '+x.c+'</p>';
+    $$('#intentChips .chip').forEach(function(c){c.setAttribute('aria-pressed',c.dataset.k===k)});
+  }
+  $$('#intentChips .chip').forEach(function(c){c.addEventListener('click',function(){showIntent(c.dataset.k)})});
+  showIntent('info');
+
+  /* Pestañas de factores */
+  $$('#factorTabs .tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      $$('#factorTabs .tab').forEach(function(o){o.setAttribute('aria-selected',o===t)});
+      $$('[data-panel]').forEach(function(p){p.hidden=p.dataset.panel!==t.dataset.p});
+    });
+  });
+
+  /* Editor práctico */
+  var inT=$('#inTitle'),inD=$('#inDesc'),inH=$('#inH1');
+  function meter(el,len,min,max,ctr,txt){
+    var pct=Math.min(100,len/max*100);
+    el.style.width=pct+'%';
+    var ok=len>=min&&len<=max;
+    el.style.background=ok?'var(--teal)':(len===0?'var(--line)':'var(--amber)');
+    ctr.textContent=len+' caracteres · recomendado: '+min+'–'+max+(ok?' ✓':(len>max?' (demasiado largo)':' (muy corto)'));
+  }
+  function check(){
+    var t=inT.value.trim(),d=inD.value.trim(),h=inH.value.trim(),kw='tomates en macetas';
+    meter($('#mTitle'),t.length,30,60,$('#cTitle'));
+    meter($('#mDesc'),d.length,70,160,$('#cDesc'));
+    $('#pT').textContent=t||'(sin título)';
+    $('#pD').textContent=d||'Sin metadescripción: Google elegirá un fragmento del texto de la página.';
+    var lc=function(s){return s.toLowerCase()};
+    var rules=[
+      ['El título tiene entre 30 y 60 caracteres',t.length>=30&&t.length<=60],
+      ['El título contiene la palabra clave «'+kw+'»',lc(t).indexOf(kw)>-1],
+      ['La metadescripción tiene entre 70 y 160 caracteres',d.length>=70&&d.length<=160],
+      ['La metadescripción menciona el tema',lc(d).indexOf('tomate')>-1],
+      ['El H1 describe el tema de la página',lc(h).indexOf('tomate')>-1&&h.length>10],
+      ['El título y el H1 no son genéricos («Inicio», «Bienvenidos»)',['inicio','bienvenidos','home'].indexOf(lc(t))<0&&['inicio','bienvenidos','home'].indexOf(lc(h))<0&&t&&h]
+    ];
+    $('#checks').innerHTML=rules.map(function(r){return '<li class="'+(r[1]?'ok':'')+'">'+r[0]+'</li>'}).join('');
+  }
+  [inT,inD,inH].forEach(function(e){e.addEventListener('input',check)});
+  $('#fillGood').addEventListener('click',function(){
+    inT.value='Cultivar tomates en macetas: guía paso a paso';
+    inD.value='Aprende a cultivar tomates en macetas: elige el recipiente, el sustrato y el riego para tener una buena cosecha en poco espacio.';
+    inH.value='Cómo cultivar tomates en macetas';check();
+  });
+  $('#fillBad').addEventListener('click',function(){inT.value='Inicio';inD.value='';inH.value='Bienvenidos';check()});
+  check();
+
+  /* Quiz */
+  var Q=[
+    {q:'¿Qué significa SEO?',o:['Search Engine Optimization','Secure Email Operation','Site Evaluation Online'],a:0,e:'SEO es «Search Engine Optimization»: optimización para motores de búsqueda.'},
+    {q:'¿Cuál es el orden correcto de las etapas de un buscador?',o:['Clasificación, rastreo, indexación','Rastreo, indexación, clasificación','Indexación, clasificación, rastreo'],a:1,e:'Primero se descubren las páginas (rastreo), luego se guardan (indexación) y al buscar se ordenan (clasificación).'},
+    {q:'Conseguir enlaces desde otros sitios confiables es parte del…',o:['SEO On-Page','SEO Técnico','SEO Off-Page'],a:2,e:'Los backlinks vienen de fuera de tu sitio, por eso son Off-Page.'},
+    {q:'«Comprar zapatillas deportivas» es una búsqueda de intención…',o:['Transaccional','Informativa','Navegacional'],a:0,e:'La persona quiere realizar una acción: comprar.'},
+    {q:'¿Qué herramienta gratuita de Google muestra con qué búsquedas aparece tu sitio y si está indexado?',o:['Google Search Console','Ahrefs','Semrush'],a:0,e:'Search Console es gratuita y ofrece informes de rendimiento e indexación.'},
+    {q:'¿Qué afirmación sobre el SEO es correcta?',o:['Da el primer lugar garantizado en una semana','Es un proceso a mediano plazo y sin garantías de posición','Solo sirve si se repite la palabra clave muchas veces'],a:1,e:'Los resultados tardan y nadie puede garantizar posiciones. Repetir en exceso la palabra clave está desaconsejado.'}
+  ];
+  var qb=$('#quizBox'),qi=0,score=0,locked=false;
+  function renderQ(){
+    if(qi>=Q.length){
+      var msg=score>=5?'¡Excelente! Dominas el tema.':score>=3?'Muy bien, repasa los puntos que fallaste.':'Repasa las secciones y vuelve a intentarlo.';
+      qb.innerHTML='<div class="qmeta"><span>Resultado final</span></div><h3 style="font-size:1.8rem;font-family:var(--serif)">'+score+' de '+Q.length+'</h3><p style="margin-bottom:16px">'+msg+'</p><button class="btn" id="qr">Reiniciar quiz</button>';
+      $('#qr').addEventListener('click',function(){qi=0;score=0;renderQ()});return;
+    }
+    var q=Q[qi];locked=false;
+    qb.innerHTML='<div class="qmeta"><span>Pregunta '+(qi+1)+' de '+Q.length+'</span><span>Aciertos: '+score+'</span></div><div class="qprog"><i style="width:'+(qi/Q.length*100)+'%"></i></div><h3></h3><div id="opts"></div><div class="fb" id="fb" aria-live="polite"></div><button class="btn sm" id="nx" style="display:none">'+(qi===Q.length-1?'Ver resultado':'Siguiente')+'</button>';
+    qb.querySelector('h3').textContent=q.q;
+    q.o.forEach(function(t,i){
+      var b=document.createElement('button');b.className='opt';b.textContent=t;
+      b.addEventListener('click',function(){
+        if(locked)return;locked=true;
+        var all=$$('.opt',qb);
+        all.forEach(function(x,k){x.disabled=true;if(k===q.a)x.classList.add('right')});
+        if(i===q.a){score++;$('#fb').textContent='✓ Correcto. '+q.e}
+        else{b.classList.add('wrong');$('#fb').textContent='✗ No exactamente. '+q.e}
+        $('#nx').style.display='inline-block';
+      });
+      $('#opts').appendChild(b);
+    });
+    $('#nx').addEventListener('click',function(){qi++;renderQ()});
+  }
+  renderQ();
+})();
+</script>
+</body>
+</html>
